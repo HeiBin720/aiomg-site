@@ -1,0 +1,9 @@
+Thumbs.db
+.DS_Store
+*.log
+
+# Source/reference assets that are not used by the published site.
+pdf-pages/
+qq-qr.jpg
+wechat-qr.jpg
+wechat-qr-v2.jpg
