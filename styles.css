@@ -845,9 +845,17 @@ kbd {
   font-size: 20px;
 }
 
+.merchant-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
 .merchant-row {
   display: flex;
   align-items: center;
+  flex: 1 1 auto;
   flex-wrap: wrap;
   gap: 7px;
   color: #4b5565;
@@ -876,19 +884,10 @@ kbd {
   font-weight: 900;
 }
 
-.shop-search-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
 .shop-searchbar {
   display: flex;
   align-items: center;
-  flex: 1 1 auto;
   gap: 16px;
-  min-width: 0;
 }
 
 .shop-searchbar input {
@@ -1724,10 +1723,10 @@ kbd {
     align-items: flex-start;
   }
 
+  .merchant-content,
   .shop-actions,
   .download-contact-list,
   .download-actions,
-  .shop-search-row,
   .shop-searchbar,
   .download-resource {
     align-items: stretch;
