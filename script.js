@@ -135,22 +135,22 @@
   }
 
   function draw() {
-    for (let x = 0; x < 36; x += 1) {
-      for (let y = 0; y < 36; y += 1) {
-        const dx = x - 18;
-        const dy = y - 18;
-        const wave = Math.sin((dx * dx + dy * dy) / 78 + tick);
-        const sweep = Math.cos((x - y) / 5 + tick * 1.35);
-        const r = channel(216, 38, Math.cos((x * x - y * y) / 230 + tick * 1.18));
-        const g = channel(224, 42, wave);
-        const b = channel(232, 42, Math.sin((x + y) / 7 + tick * .86) + sweep * .34);
+    for (let x = 0; x < 32; x += 1) {
+      for (let y = 0; y < 32; y += 1) {
+        const dx = x - 16;
+        const dy = y - 16;
+        const wave = Math.sin((dx * dx + dy * dy) / 68 + tick);
+        const sweep = Math.cos((x - y) / 4.8 + tick * 1.12);
+        const r = channel(214, 32, Math.cos((x * x - y * y) / 205 + tick * .82));
+        const g = channel(222, 34, wave);
+        const b = channel(232, 28, Math.sin((x + y) / 6.4 + tick * .72) + sweep * .22);
         ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
         ctx.fillRect(x, y, 1, 1);
       }
     }
 
     if (!reduceMotion) {
-      tick += 0.026;
+      tick += 0.018;
       frame = window.requestAnimationFrame(draw);
     }
   }
