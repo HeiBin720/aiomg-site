@@ -4,6 +4,77 @@
     link.setAttribute("rel", "noopener noreferrer");
   });
 
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function setupRevealMotion() {
+    const groups = [
+      { selector: ".page-hero > *", effect: "up", stagger: true },
+      { selector: ".feature-section", effect: "up", stagger: true },
+      { selector: ".capability-card", effect: "scale", stagger: true },
+      { selector: ".audience-list > div", effect: "right", stagger: true },
+      { selector: ".support-item", effect: "up", stagger: true },
+      { selector: ".shop-panel", effect: "up", stagger: true },
+      { selector: ".shop-category", effect: "scale", stagger: true },
+      { selector: ".goods-card", effect: "up", stagger: true },
+      { selector: ".pay-method", effect: "scale", stagger: true },
+      { selector: ".download-panel", effect: "up", stagger: true },
+      { selector: ".download-card", effect: "up", stagger: true },
+      { selector: ".step-list > div", effect: "up", stagger: true },
+      { selector: ".download-support", effect: "up", stagger: true },
+      { selector: ".release-grid > div", effect: "scale", stagger: true },
+      { selector: ".release-card", effect: "up", stagger: true },
+      { selector: ".merchant-content > *", effect: "left", stagger: true },
+      { selector: ".shop-actions > *", effect: "left", stagger: true }
+    ];
+
+    const seen = new WeakSet();
+    const revealItems = [];
+
+    groups.forEach(function (group) {
+      const nodes = Array.from(document.querySelectorAll(group.selector));
+      nodes.forEach(function (node, index) {
+        if (seen.has(node)) return;
+        seen.add(node);
+        node.classList.add("reveal-item");
+        if (group.effect && group.effect !== "up") {
+          node.dataset.reveal = group.effect;
+        }
+        if (group.stagger) {
+          node.style.setProperty("--reveal-delay", String(Math.min(index * 70, 420)) + "ms");
+        }
+        revealItems.push(node);
+      });
+    });
+
+    if (!revealItems.length) return;
+
+    document.body.classList.add("motion-ready");
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach(function (item) {
+        item.classList.add("is-visible");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, {
+      rootMargin: "0px 0px -10% 0px",
+      threshold: 0.14
+    });
+
+    revealItems.forEach(function (item) {
+      observer.observe(item);
+    });
+  }
+
+  setupRevealMotion();
+
   document.querySelectorAll(".shop-category, .goods-card").forEach(function (card) {
     card.addEventListener("click", function () {
       const group = card.classList.contains("shop-category") ? ".shop-category" : ".goods-card";
@@ -123,7 +194,6 @@
   const canvas = document.getElementById("tint-plate");
   if (!canvas) return;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ctx = canvas.getContext("2d", { alpha: false });
   if (!ctx) return;
 
